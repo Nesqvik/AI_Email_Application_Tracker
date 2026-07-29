@@ -1,30 +1,36 @@
-from openai import OpenAI
-client = OpenAI()
+import google.generativeai as genai
+import os
+import json
+import re
+from dotenv import load_dotenv
 
-def analyze_email(text):
-    response = client.chat.completions.create(
-        model="gpt-4.1",
-        messages=[
-            {
-                "role": "system",
-                "content": """
+# Load environment variables
+load_dotenv()
+
+# Configure Gemini
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+# Initialize model
+model = genai.GenerativeModel("gemini-1.5-pro")
+
+
+def clean_json(text: str):
+    """
+    Cleans Gemini response and parses JSON safely
+    """
+    text = re.sub(r"```json|```", "", text).strip()
+    return json.loads(text)
+
+
+def analyze_email(text: str):
+    prompt = f"""
 You are an expert email classifier for job applications.
 
-Your task is to analyze emails and extract structured information.
+Return ONLY valid JSON.
+No markdown.
+No explanation.
 
-Rules:
-- Be precise and factual
-- Do not hallucinate
-- If information is missing, return "unknown"
-- Always return valid JSON
-"""
-            },
-            {
-                "role": "user",
-                "content": f"""
-Analyze the following email and extract structured data.
-
-Return JSON with this exact schema:
+Schema:
 {{
   "is_job_related": boolean,
   "category": "interview" | "rejection" | "other",
@@ -33,23 +39,30 @@ Return JSON with this exact schema:
   "summary": string
 }}
 
-Definitions:
-- "interview" → invitation to interview, next steps, scheduling
-- "rejection" → decline, not selected, position filled
-- "other" → job-related but unclear or neutral
+Rules:
+- Be precise and factual
+- Do not hallucinate
+- If information is missing → "unknown"
+- Summary must be 1–2 sentences max
 
-Instructions:
-- Extract the company name from signature or sender
-- Extract the date mentioned in the email (not metadata)
-- Keep summary short (1–2 sentences)
-- If not job-related → set category = "other"
+Definitions:
+- "interview" → invitation or next steps
+- "rejection" → decline or not selected
+- "other" → unclear or neutral
 
 Email:
 {text}
 """
-            }
-        ],
-        response_format={"type": "json_object"}
-    )
 
-    return response.choices[0].message.content
+    response = model.generate_content(prompt)
+
+    try:
+        return clean_json(response.text)
+    except Exception:
+        return {
+            "is_job_related": False,
+            "category": "other",
+            "company": "unknown",
+            "date": "unknown",
+            "summary": "Failed to parse response"
+        }

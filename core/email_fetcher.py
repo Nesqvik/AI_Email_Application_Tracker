@@ -1,9 +1,9 @@
 import imaplib
 import email
 
-def fetch_emails():
+def fetch_emails(user_email, password):
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login("your_email@gmail.com", "app_password")
+    mail.login(user_email, password)
 
     mail.select("inbox")
     status, messages = mail.search(None, "ALL")
@@ -21,9 +21,9 @@ def fetch_emails():
         if msg.is_multipart():
             for part in msg.walk():
                 if part.get_content_type() == "text/plain":
-                    body = part.get_payload(decode=True).decode()
+                    body = part.get_payload(decode=True).decode(errors="ignore")
         else:
-            body = msg.get_payload(decode=True).decode()
+            body = msg.get_payload(decode=True).decode(errors="ignore")
 
         email_list.append({
             "subject": subject,
