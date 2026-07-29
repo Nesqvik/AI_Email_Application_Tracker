@@ -224,3 +224,5 @@ __marimo__/
 
 faiss_index/
 *.index 
+
+client_secret.json
