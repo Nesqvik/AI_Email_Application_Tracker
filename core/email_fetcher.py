@@ -1,29 +1,66 @@
-import imaplib
-import email
+import base64
+import os.path
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from google.oauth2.credentials import Credentials
 
-def fetch_emails(user_email, password):
-    mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login(user_email, password)
 
-    mail.select("inbox")
-    status, messages = mail.search(None, "ALL")
+SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
+
+def authenticate():
+    creds = None
+
+    if os.path.exists("token.json"):
+        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+
+    if not creds or not creds.valid:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            "core/client_secret.json", SCOPES
+        )
+        creds = flow.run_local_server(port=0)
+
+        with open("token.json", "w") as token:
+            token.write(creds.to_json())
+
+    return creds
+
+
+def fetch_emails():
+    creds = authenticate()
+    service = build('gmail', 'v1', credentials=creds)
+
+    results = service.users().messages().list(
+        userId='me',
+        maxResults=10
+    ).execute()
+
+    messages = results.get('messages', [])
     email_list = []
 
-    for num in messages[0].split()[-10:]:
-        status, msg_data = mail.fetch(num, "(RFC822)")
-        msg = email.message_from_bytes(msg_data[0][1])
+    for msg in messages:
+        msg_data = service.users().messages().get(
+            userId='me',
+            id=msg['id'],
+            format='full'
+        ).execute()
 
-        subject = msg["subject"]
-        from_ = msg["from"]
+        payload = msg_data['payload']
+        headers = payload['headers']
+
+        subject = next((h['value'] for h in headers if h['name'] == 'Subject'), '')
+        from_ = next((h['value'] for h in headers if h['name'] == 'From'), '')
 
         body = ""
-        if msg.is_multipart():
-            for part in msg.walk():
-                if part.get_content_type() == "text/plain":
-                    body = part.get_payload(decode=True).decode(errors="ignore")
+
+        if 'parts' in payload:
+            for part in payload['parts']:
+                if part['mimeType'] == 'text/plain':
+                    data = part['body']['data']
+                    body = base64.urlsafe_b64decode(data).decode()
         else:
-            body = msg.get_payload(decode=True).decode(errors="ignore")
+            data = payload['body']['data']
+            body = base64.urlsafe_b64decode(data).decode()
 
         email_list.append({
             "subject": subject,

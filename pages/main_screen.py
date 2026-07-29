@@ -3,6 +3,7 @@ import json
 from core.email_fetcher import fetch_emails
 from core.analyzer import analyze_email
 import pandas as pd
+import os
 
 
 #TITLE
@@ -42,13 +43,23 @@ def render_screen():
     with st.sidebar:
         st.header("Credentials")
 
-        email_input = st.text_input("Email")
-        password_input = st.text_input("App Password", type="password")
+        # email_input = st.text_input("Email")
+        # password_input = st.text_input("App Password", type="password")
+
+        if st.button("Connect Gmail"):
+            fetch_emails()
+            st.success("Connected!")
 
         if st.button("Save credentials"):
-            st.session_state.email = email_input
-            st.session_state.password = password_input
+            # st.session_state.email = email_input
+            # st.session_state.password = password_input
             st.success("Saved")
+
+        #LOGOUT
+        if st.button("🚪 Logout"):
+            if os.path.exists("token.json"):
+                os.remove("token.json")
+            st.success("Logged out")
 
         #DELETE CREDENTIALS 
         if st.button("Delete all data"):
