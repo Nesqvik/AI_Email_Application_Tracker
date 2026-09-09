@@ -3,10 +3,11 @@ import os.path
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from google.oauth2.credentials import Credentials
 
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
-
 
 def authenticate():
     creds = None
@@ -25,6 +26,22 @@ def authenticate():
 
     return creds
 
+def is_connected():
+    return os.path.exists("token.json")
+
+def get_user_email():
+
+    if not os.path.exists("token.json"):
+        return None
+
+    creds = Credentials.from_authorized_user_file(
+        "token.json",
+        SCOPES
+    )
+
+    service = build("gmail", "v1", credentials=creds)
+    profile = service.users().getProfile(userId="me").execute()
+    return profile["emailAddress"]
 
 def fetch_emails():
     creds = authenticate()
@@ -58,14 +75,17 @@ def fetch_emails():
                 if part['mimeType'] == 'text/plain':
                     data = part['body']['data']
                     body = base64.urlsafe_b64decode(data).decode()
+                    
         else:
             data = payload['body']['data']
             body = base64.urlsafe_b64decode(data).decode()
 
         email_list.append({
+            "id": msg["id"],  
             "subject": subject,
             "from": from_,
             "body": body
+
         })
 
     return email_list

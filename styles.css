@@ -1,0 +1,507 @@
+
+:root{
+    --bg:#0B0D10;
+    --surface:#13161D;
+    --surface2:#191D25;
+    --border:rgba(255,255,255,.06);
+    --text:#F4F4F5;
+    --muted:#9CA3AF;
+    --accent:#6366F1;
+    --green:#22C55E;
+    --red:#EF4444;
+    --orange:#F59E0B;
+    --blue:#3B82F6;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+.block-container{
+    max-width:1500px;
+    padding:1.6rem 3rem;
+}
+
+header{
+    visibility:hidden;
+    height:0;
+}
+
+.main>div{
+    padding-top:0!important;
+}
+
+/* ==========================
+   TYPOGRAPHY
+========================== */
+
+h1{
+    font-size:46px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+p{
+    font-size:18px;
+    color:var(--muted);
+}
+
+.stButton>button{
+
+    width:100%;
+    height:54px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:600;
+    transition:.2s;
+}
+
+.stButton>button:hover{
+    background:#4F46E5;
+    transform:translateY(-2px);
+}
+
+
+.stDownloadButton button{
+
+    height:54px;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+}
+
+
+.stTextInput{
+    margin-bottom:0;
+}
+
+.stTextInput > div{
+    height:60px;
+}
+
+.stTextInput > div > div{
+    height:60px;
+}
+
+.stTextInput input{
+    height:60px !important;
+    min-height:60px !important;
+    padding:0 20px !important;
+    font-size:16px;
+    border-radius:16px !important;
+    background:#15171d !important;
+    border:none !important;
+}
+
+.stSelectbox{
+
+    margin-top:2px;
+
+}
+
+/* ==========================
+   ALERT
+========================== */
+
+.stAlert{
+
+    border-radius:12px;
+
+}
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+section[data-testid="stSidebar"] {
+    background: #0d0d0f;
+    border-right: 1px solid rgba(255,255,255,.06);
+    padding-top: 0 !important;
+}
+
+
+
+section[data-testid="stSidebar"] *{
+
+    color:#D1D5DB!important;
+
+}
+
+section[data-testid="stSidebar"] .stButton>button{
+
+    background:transparent;
+
+    border:none;
+
+    text-align:left;
+
+    padding-left:15px;
+
+}
+
+section[data-testid="stSidebar"] .stButton>button:hover{
+    background:rgba(99,102,241,.10);
+    box-shadow:inset 3px 0 0 var(--accent);
+}
+
+
+[data-testid="stDataFrame"]{
+    border-radius:16px;
+    border:1px solid var(--border);
+    overflow:hidden;
+}
+
+
+.metric{
+background:#151922;
+padding:28px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.06);
+transition:.25s;
+height:145px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.metric:hover{
+
+transform:translateY(-4px);
+
+border-color:#6366F1;
+
+box-shadow:0 15px 45px rgba(99,102,241,.15);
+
+}
+
+.metric-value{
+
+font-size:44px;
+
+font-weight:700;
+
+color:white;
+
+line-height:1;
+
+}
+
+.metric-title{
+
+margin-top:18px;
+
+font-size:15px;
+
+color:#9CA3AF;
+
+font-weight:500;
+
+}
+
+.email-card{
+
+    display:flex;
+
+    background:var(--surface);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+
+    margin-bottom:20px;
+
+    transition:.25s;
+
+}
+
+.email-card:hover{
+
+    transform:translateY(-3px);
+
+    border-color:rgba(99,102,241,.35);
+
+    box-shadow:0 18px 45px rgba(99,102,241,.14);
+
+}
+
+.left-bar{
+
+    width:6px;
+
+}
+
+.content{
+
+    padding:24px;
+
+    width:100%;
+
+}
+
+.top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+}
+
+.top h3{
+
+    margin:0;
+
+    font-size:24px;
+
+    font-weight:700;
+}
+
+.badge{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:6px 15px;
+
+    border-radius:999px;
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.summary{
+
+    margin:22px 0;
+
+    line-height:1.7;
+
+    color:#D4D4D8;
+
+    font-size:16px;
+
+}
+
+.bottom{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+.confidence,
+
+.language{
+
+    padding:7px 13px;
+
+    border-radius:999px;
+
+    background:#1F2937;
+
+    font-size:13px;
+
+}
+
+.confidence{
+
+    color:#93C5FD;
+
+}
+
+.language{
+
+    color:#D1D5DB;
+
+}
+
+.date{
+
+    color:var(--muted);
+
+}
+
+.connected{
+
+    background:#15171D;
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:12px;
+    text-align:center;
+    font-weight:600;
+    color:#7EE787;
+
+}
+
+.disconnected{
+
+    background:#15171D;
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:12px;
+    text-align:center;
+    font-weight:600;
+    color:#ef4444;
+
+}
+
+/* HERO */
+
+.hero{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:40px;
+
+}
+
+.hero-title{
+
+font-size:48px;
+
+font-weight:700;
+
+color:white;
+
+}
+
+.hero-subtitle{
+
+margin-top:10px;
+
+font-size:18px;
+
+color:#8b949e;
+
+}
+
+.connected-pill{
+
+background:#15171b;
+
+padding:14px 24px;
+
+border-radius:999px;
+
+font-weight:600;
+
+color:#5ee87d;
+
+border:1px solid rgba(255,255,255,.05);
+
+}
+
+
+section[data-testid="stSidebar"] .stButton{
+    width:100%;
+}
+
+section[data-testid="stSidebar"] .stButton>button{
+
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+
+    width:100%;
+    height:48px;
+
+    padding-left:18px;
+
+    background:transparent;
+
+    color:#c9ced8;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    box-shadow:none;
+}
+
+section[data-testid="stSidebar"] .stButton>button:hover{
+
+    background:#1b1d25;
+
+    color:white;
+
+    transform:none;
+}
+
+section[data-testid="stSidebar"] .stButton>button:focus{
+
+    background:#1b1d25;
+
+    color:white;
+
+    border:none;
+}
+
+.sidebar-logo{
+    font-size:32px;
+    font-weight:800;
+    color:#fff;
+
+    padding:26px 12px 22px 12px;
+
+    letter-spacing:-1px;
+    line-height:1.2;
+}
+
+
+/* Category chips */
+
+div[role="radiogroup"] {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+div[role="radiogroup"] > label {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: .2s;
+    font-weight: 600;
+}
+
+div[role="radiogroup"] > label:hover {
+    background: #e5e7eb;
+}
+
+div[role="radiogroup"] input:checked + div {
+    color: white !important;
+}
+
+div[role="radiogroup"] > label:has(input:checked) {
+    background: #6366f1;
+    color: white;
+    border-color: #6366f1;
+}

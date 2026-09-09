@@ -3,7 +3,15 @@ from typing import Literal
 
 
 class EmailAnalysis(BaseModel):
+    id: str
     is_job_related: bool
+    category: str
+    company: str
+    summary: str
+    confidence: float
+    date: str
+    response: str
+    language: Literal["en", "de", "other"]
 
     category: Literal[
         "interview_invitation",
@@ -16,9 +24,7 @@ class EmailAnalysis(BaseModel):
         "other_job_related",
         "not_job_related"
     ]
+    
+     
 
-    company: str
-    date: str
-    summary: str
-    confidence: float        
-    language: Literal["en", "de", "other"]
+    
