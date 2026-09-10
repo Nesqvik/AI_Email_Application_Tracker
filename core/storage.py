@@ -1,20 +1,17 @@
-# app/tools/storage.py
-
+from pathlib import Path
 from sqlalchemy import create_engine, Column, String, Boolean, Float
 from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy import DateTime
-import os
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+DB_PATH = BASE_DIR / "data" / "db.sqlite"
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-DB_PATH = os.path.join(BASE_DIR, "data", "db.sqlite")
-
-os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
+
 
 class Email(Base):
     __tablename__ = "emails"
@@ -28,21 +25,24 @@ class Email(Base):
     date = Column(String)
     language = Column(String)
 
+
 Base.metadata.create_all(engine)
+
 
 def save_email(data):
     db = SessionLocal()
 
     if db.query(Email).filter_by(id=data["id"]).first():
+        db.close()
         return
 
-    email = Email(**data)
-    db.add(email)
+    db.add(Email(**data))
     db.commit()
     db.close()
 
+
 def get_all_job_emails():
     db = SessionLocal()
-    data = db.query(Email).filter_by(is_job_related=True).all()
+    emails = db.query(Email).filter_by(is_job_related=True).all()
     db.close()
-    return data
+    return emails

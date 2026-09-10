@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+
+  app:
+
+    build: .
+
+    ports:
+
+      - "8501:8501"
+
+    command: streamlit run email_check_app.py --server.port=8501 --server.address=0.0.0.0
+
+    env_file:
+
+      - .env
+
+  worker:
+
+    build: .
+
+    command: python worker/watcher.py
+
+    env_file:
+
+      - .env

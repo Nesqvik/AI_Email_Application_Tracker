@@ -49,7 +49,7 @@ def fetch_emails():
 
     results = service.users().messages().list(
         userId='me',
-        maxResults=10
+        maxResults=100
     ).execute()
 
     messages = results.get('messages', [])

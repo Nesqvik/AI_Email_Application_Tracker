@@ -5,6 +5,8 @@ import pandas as pd
 import os
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
+from config.settings import load_settings, save_settings
+from datetime import datetime
 
 
 st.set_page_config(
@@ -167,6 +169,38 @@ def render_screen():
         if st.button("🗑 Delete data", use_container_width=True):
             st.session_state["data"] = []
             st.rerun()
+
+        #SETTINGS
+
+        settings = load_settings()
+
+        enabled = st.checkbox(
+            "Enable monthly report",
+            value=settings["monthly_report"]
+        )
+
+        recipient_email = st.text_input(
+            "Recipient email",
+            value=settings["email"]
+        )
+
+        send_time = st.time_input(
+            "Send time",
+            value=datetime.strptime(
+                settings["time"],
+                "%H:%M"
+            ).time()
+        )
+
+        if st.button("Save settings"):
+
+            save_settings({
+                "monthly_report": enabled,
+                "email": recipient_email,
+                "time": send_time.strftime("%H:%M")
+            })
+
+            st.success("Settings saved")
 
         st.markdown("<div class='sidebar-spacer'></div>", unsafe_allow_html=True)
 
