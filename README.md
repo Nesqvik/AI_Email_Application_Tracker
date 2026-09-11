@@ -217,7 +217,7 @@ docker compose down
 
 </table>
     <td align="center">
-      <b>Food Analysis & Results</b><br/>
+      <b>Email Analysis & Results</b><br/>
       <img src="images/img_res.png" alt="Input Example Screen" width="850"/>
     </td>
   </tr>
