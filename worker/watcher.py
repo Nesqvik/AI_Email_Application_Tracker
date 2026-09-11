@@ -1,7 +1,6 @@
 import time
 import calendar
 from datetime import datetime
-from core.agent import run_agent
 from core.report import send_report
 
 

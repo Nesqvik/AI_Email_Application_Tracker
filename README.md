@@ -30,7 +30,7 @@ The application allows users to:
   <tr>
     <td align="center">
       <b>Start Screen</b><br/>
-      <img src="screenshots/screen_1.png" alt="Home Screen" width="650"/>
+      <img src="images/img_start.png" alt="Start Screen" width="650"/>
     </td>
   </tr>
 </table>
@@ -159,22 +159,66 @@ AI-generated classifications should be reviewed by the user before making import
 
 ## How to run
 
-Run `uv run streamlit run ./email_check_app.py`
+- Run `uv run streamlit run ./email_check_app.py`
+
+## Gmail authentication
+
+Each user must configure their own Google OAuth credentials.
+
+1. Enable the Gmail API in Google Cloud.
+2. Create OAuth 2.0 credentials.
+3. Download the credentials file.
+4. Place it in the project as:
+
+```text
+credentials/client_secret.json
+```
+
+## Docker
+
+The application can also be run using Docker.
+
+### Build the Docker image
+```bash
+docker build -t email-tracker
+```
+### Run the container
+```bash
+docker run --env-file .env -p 8501:8501 email-tracker
+```
+
+The application will be available at:
+
+http://localhost:8501
+
+
+### Docker Compose
+
+If Docker Compose is installed, the application can be started with:
+```bash
+docker compose up --build
+```
+
+If the older standalone Docker Compose command is installed, use:
+```bash
+docker-compose up --build
+```
+
+The application will be available at:
+
+http://localhost:8501
+
+To stop the application:
+```bash
+docker compose down
+```
 
 ## Application Preview
 
 </table>
     <td align="center">
       <b>Food Analysis & Results</b><br/>
-      <img src="screenshots/screen_3.png" alt="Input Example Screen" width="850"/>
-    </td>
-  </tr>
-</table>
-
-</table>
-    <td align="center">
-      <b>AI Chat Assistant</b><br/>
-      <img src="screenshots/screen_2.png" alt="Input Example Screen" width="850"/>
+      <img src="images/img_res.png" alt="Input Example Screen" width="850"/>
     </td>
   </tr>
 </table>
