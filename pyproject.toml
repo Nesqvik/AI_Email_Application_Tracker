@@ -1,7 +1,19 @@
 [project]
 name = "email-check-app"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI Email Application Tracker"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+
+dependencies = [
+    "google-api-python-client",
+    "google-auth-oauthlib",
+    "google-generativeai",
+    "langsmith",
+    "pandas",
+    "pydantic",
+    "python-dotenv",
+    "reportlab",
+    "sqlalchemy",
+    "streamlit",
+]

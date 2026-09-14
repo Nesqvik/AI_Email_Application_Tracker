@@ -226,3 +226,4 @@ faiss_index/
 *.index 
 
 client_secret.json
+data/
