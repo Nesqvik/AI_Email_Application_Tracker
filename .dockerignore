@@ -9,3 +9,6 @@ token.json
 *.pyc
 
 .env
+
+credentials
+data

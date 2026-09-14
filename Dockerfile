@@ -1,13 +1,8 @@
-FROM python:3.12-slim
-
+FROM python:3.11-slim
 WORKDIR /app
-
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen
 COPY . .
-
-RUN pip install --upgrade pip
-
-RUN pip install -r requirements.txt
-
 EXPOSE 8501
-
-CMD ["streamlit","run","email_check_app.py","--server.port=8501","--server.address=0.0.0.0"]
+CMD ["uv", "run", "streamlit", "run", "email_check_app.py", "--server.address=0.0.0.0"]
