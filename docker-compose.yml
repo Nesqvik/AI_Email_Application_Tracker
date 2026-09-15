@@ -5,3 +5,6 @@ services:
       - "8501:8501"
     env_file:
       - .env
+    volumes:
+      - ./data:/app/data
+      - ./core/client_secret.json:/app/core/client_secret.json:ro

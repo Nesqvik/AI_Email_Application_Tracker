@@ -4,5 +4,7 @@ __pycache__/
 token.json
 *.pyc
 .env
-credentials
-data
+credentials/
+data/
+core/client_secret.json
+.gitignore
